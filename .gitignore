@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Environment variables (NEVER commit secrets to Git)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Build outputs
+dist
+build
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode
+.idea
