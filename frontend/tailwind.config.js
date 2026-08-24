@@ -33,6 +33,18 @@ export default {
       backgroundImage: {
         "diya-glow": "radial-gradient(circle at 30% 20%, rgba(232,163,61,0.18), transparent 55%)",
       },
+      keyframes: {
+        "cart-bump": {
+          "0%": { transform: "scale(1) rotate(0deg)", boxShadow: "0 0 0 0 rgba(255,214,102,0.7)" },
+          "30%": { transform: "scale(1.4) rotate(-10deg)", boxShadow: "0 0 0 8px rgba(255,214,102,0.45)" },
+          "55%": { transform: "scale(0.9) rotate(8deg)", boxShadow: "0 0 0 16px rgba(255,214,102,0.15)" },
+          "80%": { transform: "scale(1.1) rotate(-3deg)", boxShadow: "0 0 0 22px rgba(255,214,102,0)" },
+          "100%": { transform: "scale(1) rotate(0deg)", boxShadow: "0 0 0 0 rgba(255,214,102,0)" },
+        },
+      },
+      animation: {
+        "cart-bump": "cart-bump 0.7s cubic-bezier(0.34,1.56,0.64,1)",
+      },
     },
   },
   plugins: [],

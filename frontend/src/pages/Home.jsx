@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProducts } from "../lib/api.js";
 import ProductCard from "../components/ProductCard.jsx";
-import ProductImage from "../components/ProductImage.jsx";
-import Sweet3DShowcase from "../components/Sweet3DShowcase.jsx";
-import SpecialtyBadge from "../components/SpecialtyBadge.jsx";
-import TiltCard from "../components/TiltCard.jsx";
 import Reveal from "../components/Reveal.jsx";
+import VendorSpecialtyHero from "../components/VendorSpecialtyHero.jsx";
 import { formatINR } from "../lib/currency.js";
 
 const categories = [
@@ -18,92 +15,21 @@ const categories = [
   { name: "South Indian Classics", image: "/images/products/mysore-pak.jpg" },
 ];
 
-const SPECIALTY_SLUGS = ["a2-bilona-desi-ghee", "mysore-pak", "payasam"];
-
 export default function Home() {
   const [featured, setFeatured] = useState([]);
-  const [specialties, setSpecialties] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProducts({})
       .then((all) => {
         setFeatured(all.filter((p) => p.featured).slice(0, 4));
-        setSpecialties(
-          SPECIALTY_SLUGS.map((slug) => all.find((p) => p.slug === slug)).filter(Boolean)
-        );
       })
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <div>
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-20 grid gap-10 md:grid-cols-2 items-center bg-diya-glow overflow-hidden">
-        <Reveal>
-          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-maroon">
-            <span className="size-1.5 rounded-full bg-saffron" /> Hand-made daily. Pure desi ghee.
-          </p>
-          <h1 className="mt-4 font-heading text-4xl sm:text-6xl font-semibold leading-[1.05] text-ink">
-            Traditional mithai, <span className="text-maroon">made with pure ghee.</span>
-          </h1>
-          <p className="mt-5 text-ink-soft text-lg max-w-md">
-            From melt-in-the-mouth laddus to festive ghevar and creamy rabri, Mithai Ghar hand-crafts
-            every sweet in small batches using time-honored recipes and generous ghee.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              to="/products"
-              className="rounded-full bg-maroon text-white px-6 py-3 text-sm font-semibold hover:bg-saffron transition-colors"
-            >
-              Shop all sweets
-            </Link>
-            <Link
-              to="/products?category=Pure%20Ghee"
-              className="rounded-full border border-hairline px-6 py-3 text-sm font-semibold hover:border-maroon transition-colors"
-            >
-              Shop pure ghee
-            </Link>
-          </div>
-        </Reveal>
-        <Reveal delay={0.15} y={0} className="w-full max-w-xs mx-auto">
-          <Sweet3DShowcase image="/images/products/a2-bilona-desi-ghee.jpg" alt="A2 Bilona Desi Ghee" />
-          <p className="mt-4 text-center text-xs font-semibold uppercase tracking-widest text-marigold-dark">
-            Our signature: A2 Bilona Desi Ghee
-          </p>
-        </Reveal>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-widest text-maroon text-center">Vendor's specialties</p>
-          <h2 className="mt-2 font-heading text-3xl font-semibold text-center text-ink">Made the way it should be</h2>
-        </Reveal>
-        {specialties.length > 0 && (
-          <div className="mt-10 grid sm:grid-cols-3 gap-6">
-            {specialties.map((p, i) => (
-              <Reveal key={p._id} delay={i * 0.12}>
-                <TiltCard maxTilt={10} className="relative rounded-card bg-white border border-hairline p-6 h-full">
-                  <SpecialtyBadge className="absolute top-3 left-3 z-10" />
-                  <div className="w-28 mx-auto">
-                    <ProductImage product={p} />
-                  </div>
-                  <h3 className="mt-4 font-heading text-lg font-semibold text-center text-ink">{p.name}</h3>
-                  <p className="mt-2 text-sm text-ink-soft text-center leading-relaxed">{p.description}</p>
-                  <p className="mt-4 text-center font-heading font-semibold text-maroon">
-                    From {formatINR(p.weightOptions[0].price)}
-                  </p>
-                  <Link
-                    to={`/products/${p.slug}`}
-                    className="mt-4 block text-center rounded-full bg-maroon text-white text-sm font-semibold px-4 py-2 hover:bg-saffron transition-colors"
-                  >
-                    View sweet
-                  </Link>
-                </TiltCard>
-              </Reveal>
-            ))}
-          </div>
-        )}
-      </section>
+      <VendorSpecialtyHero />
 
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
         <Reveal>

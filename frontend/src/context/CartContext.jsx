@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING, GST_RATE } from "../lib/currency.js";
+import { playAddToCartChime } from "../lib/sound.js";
 
 const CartContext = createContext(null);
 const STORAGE_KEY = "mithai-ghar-cart";
@@ -45,6 +46,8 @@ export function CartProvider({ children }) {
         },
       ];
     });
+    playAddToCartChime();
+    window.dispatchEvent(new CustomEvent("cart:bump"));
   }
 
   function updateQty(key, qty) {

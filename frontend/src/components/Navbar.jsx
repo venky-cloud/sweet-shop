@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
   { to: "/", label: "Home" },
@@ -12,6 +12,16 @@ const links = [
 export default function Navbar() {
   const { totals } = useCart();
   const [open, setOpen] = useState(false);
+  const [bump, setBump] = useState(false);
+
+  useEffect(() => {
+    function onBump() {
+      setBump(true);
+      setTimeout(() => setBump(false), 750);
+    }
+    window.addEventListener("cart:bump", onBump);
+    return () => window.removeEventListener("cart:bump", onBump);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-hairline">
@@ -36,8 +46,11 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <NavLink
+            id="nav-cart-icon"
             to="/cart"
-            className="relative inline-flex items-center gap-2 rounded-full bg-maroon text-white px-4 py-2 text-sm font-semibold hover:bg-saffron transition-colors"
+            className={`relative inline-flex items-center gap-2 rounded-full bg-maroon text-white px-4 py-2 text-sm font-semibold hover:bg-saffron transition-colors ${
+              bump ? "animate-cart-bump" : ""
+            }`}
           >
             <span aria-hidden="true">🛒</span>
             Cart

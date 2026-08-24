@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Sweets &amp; Ghee | Vendor Speciality</title>
+<meta name="description" content="Freshly prepared Indian sweets made with pure ghee, rich dry fruits, and authentic homemade taste.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Galada&family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<style>
+:root{
+  --bg-inner:#d68a16;
+  --bg-mid:#7a3f08;
+  --bg-outer:#1f1003;
+  --accent:#ffd166;
+  --cream:#fbeedd;
+  --maroon:#5a0f14;
+  --text-color:#fdf6ec;
+  --muted-color:rgba(253,246,236,0.72);
+  --glass-bg:rgba(255,235,205,0.08);
+  --glass-border:rgba(255,225,180,0.18);
+  --font-main:'Inter','Manrope',sans-serif;
+  --font-heading:'Galada',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  background:radial-gradient(circle at center, var(--bg-inner) 0%, var(--bg-mid) 48%, var(--bg-outer) 100%);
+  color:var(--text-color);
+  font-family:var(--font-main);
+  overflow:hidden;
+  height:100vh;
+  transition:background 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+a{color:inherit;}
+
+#particles-container{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.particle{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle at 35% 30%, #fff8dd 0%, var(--accent) 45%, rgba(255,209,102,0) 100%);
+  box-shadow:0 0 10px rgba(255,214,120,0.6);
+}
+@keyframes floatUpParticle{
+  0%{transform:translateY(0) translateX(0) scale(0.6);opacity:0;}
+  12%{opacity:0.85;}
+  85%{opacity:0.55;}
+  100%{transform:translateY(-108vh) translateX(24px) scale(1.1);opacity:0;}
+}
+
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:2rem 4%;position:fixed;top:0;width:100%;z-index:200;
+}
+.logo{
+  display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.4rem;font-family:var(--font-heading);color:var(--accent);
+}
+.logo svg{color:var(--accent);}
+.nav{
+  display:flex;gap:.3rem;
+  background:rgba(255,235,205,0.08);
+  border:1px solid rgba(255,225,180,0.22);
+  box-shadow:0 8px 32px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:.4rem;border-radius:100px;
+}
+.nav-item{
+  font-family:'Manrope',sans-serif;color:var(--muted-color);text-decoration:none;
+  font-size:.85rem;font-weight:500;padding:.55rem 1.2rem;border-radius:100px;
+  transition:all .3s ease;
+}
+.nav-item:hover,.nav-item.active{background:var(--accent);color:#2a1400;}
+.order-btn{
+  background:linear-gradient(135deg,#ffe08a,var(--accent));
+  color:#2a1400;border:none;padding:.9rem 2rem;border-radius:100px;
+  font-weight:700;font-size:.85rem;cursor:pointer;transition:all .3s ease;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+.order-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,0.35);}
+
+.hero{
+  height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:0 4%;padding-top:5rem;
+}
+.hero-content{
+  display:flex;justify-content:space-between;align-items:stretch;
+  width:100%;height:100%;position:relative;perspective:1400px;
+}
+
+.main-title,.side-label{font-family:var(--font-heading);}
+.main-title{
+  font-size:clamp(4rem,9vw,10rem);line-height:.82;font-weight:400;
+  white-space:nowrap;color:var(--text-color);
+}
+.main-title .accent-line{color:var(--accent);}
+
+.ingredients-container,.ingredients-container-bg{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;transition:transform .1s ease-out;
+}
+.ingredients-container{z-index:110;}
+.ingredients-container-bg{z-index:0;}
+.ingredient{
+  position:absolute;pointer-events:none;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+}
+.ingredient svg{width:100%;height:100%;display:block;}
+
+.i1{top:20%;left:26%;width:100px;height:100px;}
+.i2{top:58%;left:38%;width:78px;height:78px;}
+.i3{top:26%;left:63%;width:120px;height:120px;}
+.i4{top:10%;left:48%;width:64px;height:64px;}
+.i5{top:70%;left:20%;width:82px;height:82px;}
+.i6{top:44%;left:78%;width:96px;height:96px;}
+.i7{top:80%;left:58%;width:90px;height:90px;}
+.i8{top:33%;left:86%;width:58px;height:58px;opacity:.7;}
+.ib1{top:14%;left:42%;width:50px;height:50px;opacity:.45;}
+.ib2{top:52%;left:56%;width:44px;height:44px;opacity:.4;}
+.ib3{top:82%;left:36%;width:52px;height:52px;opacity:.45;}
+.ib4{top:20%;left:60%;width:40px;height:40px;opacity:.35;}
+
+.hero-left{
+  display:flex;flex-direction:column;height:100%;padding:6rem 0;gap:2rem;z-index:100;
+}
+.description{color:var(--muted-color);font-size:1.05rem;line-height:1.6;max-width:400px;}
+.cta-group{display:flex;}
+.primary-btn{
+  display:flex;align-items:center;gap:1.4rem;
+  background:rgba(20,8,2,0.55);color:var(--text-color);border:1px solid var(--glass-border);
+  padding:.4rem .4rem .4rem 1.5rem;border-radius:100px;font-weight:700;cursor:pointer;
+  width:fit-content;transition:all .3s ease;
+}
+.primary-btn:hover{background:rgba(20,8,2,0.75);transform:translateY(-3px);}
+.plus-icon{
+  background:var(--accent);color:#2a1400;width:38px;height:38px;display:flex;
+  align-items:center;justify-content:center;border-radius:50%;font-size:1.4rem;
+  font-weight:900;line-height:1;padding-bottom:2px;
+}
+.award-badge{display:flex;align-items:center;gap:1rem;margin-top:auto;}
+.award-icon{
+  width:48px;height:48px;background:var(--glass-bg);border:1px solid var(--glass-border);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--accent);
+}
+.award-text{display:flex;flex-direction:column;}
+.award-title{font-size:.72rem;letter-spacing:.08em;color:var(--accent);font-weight:700;}
+.award-subtitle{font-size:.85rem;font-weight:600;color:var(--muted-color);}
+
+.hero-center{
+  display:flex;justify-content:center;align-items:center;position:absolute;
+  top:0;left:0;width:100%;height:100%;z-index:1;opacity:0;pointer-events:none;
+  animation:fadeIn 1.4s ease-out .3s forwards;
+}
+@keyframes fadeIn{to{opacity:1;}}
+.product-stage{
+  position:fixed;top:50%;left:50%;width:420px;height:420px;
+  transform:translate(-50%,-50%);pointer-events:none;
+}
+.product-glow{
+  position:absolute;inset:-20%;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,214,102,0.28) 0%,transparent 70%);
+  filter:blur(10px);
+}
+.product-plate{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.plate-svg{width:100%;height:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,0.45));}
+.product-sweet-wrap{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  will-change:transform;
+}
+.product-sweet-svg{width:58%;height:58%;}
+.product-label{
+  position:absolute;bottom:-3.2rem;left:50%;transform:translateX(-50%);
+  font-family:var(--font-heading);font-size:2.2rem;color:var(--accent);white-space:nowrap;
+}
+
+.hero-right{
+  display:flex;flex-direction:column;justify-content:flex-start;gap:1.4rem;
+  align-items:flex-end;text-align:right;height:100%;padding:6rem 0;z-index:100;
+  width:460px;
+}
+.section-title{
+  font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:800;letter-spacing:.18em;
+  color:var(--accent);text-transform:uppercase;
+}
+.sweet-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;pointer-events:auto;
+}
+.sweet-card{
+  background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:24px;
+  padding:1rem 1rem 1.1rem;display:flex;flex-direction:column;align-items:center;
+  gap:.4rem;cursor:pointer;width:150px;position:relative;
+  backdrop-filter:blur(10px);text-align:center;
+  transition:all .4s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.sweet-card:hover{background:rgba(255,235,205,0.14);border-color:rgba(255,225,180,0.4);}
+.sweet-card.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 15px 30px rgba(0,0,0,0.35);}
+.card-sweet-svg{
+  width:78px;height:78px;transition:transform .5s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;
+}
+.sweet-card:hover .card-sweet-svg{transform:translateY(-8px) rotate(-8deg) scale(1.1);}
+.card-name{font-weight:700;font-size:.85rem;}
+.card-price{font-size:.78rem;color:var(--accent);font-weight:700;}
+.card-weight{font-size:.68rem;color:var(--muted-color);}
+
+@media (max-width:1200px){
+  body{overflow-y:auto;height:auto;}
+  .hero{height:auto;min-height:100vh;padding-top:7rem;padding-bottom:3rem;}
+  .hero-content{flex-direction:column;align-items:center;gap:3rem;perspective:none;}
+  .hero-left,.hero-right{width:100%;padding:0;align-items:center;text-align:center;height:auto;}
+  .hero-right{align-items:center;}
+  .award-badge{margin-top:1rem;}
+  .main-title{font-size:clamp(3rem,12vw,6rem);white-space:normal;}
+  .product-stage{position:relative;top:0;left:0;transform:none;width:300px;height:300px;margin:1rem auto;}
+  .hero-center{position:relative;opacity:1;height:340px;order:0;}
+  .sweet-grid{grid-template-columns:repeat(2,1fr);}
+  .nav{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="particles-container"></div>
+
+<header class="header">
+  <div class="logo">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C9 7 6 9 6 13a6 6 0 0012 0c0-4-3-6-6-11z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    </svg>
+    <span>Sri Sweets &amp; Ghee</span>
+  </div>
+  <nav class="nav">
+    <a href="#" class="nav-item active">Home</a>
+    <a href="#" class="nav-item">Sweets</a>
+    <a href="#" class="nav-item">Ghee</a>
+    <a href="#" class="nav-item">Specials</a>
+    <a href="#" class="nav-item">Contact</a>
+  </nav>
+  <button class="order-btn">Order Now</button>
+</header>
+
+<main class="hero">
+  <div class="hero-content">
+
+    <div class="ingredients-container-bg">
+      <div class="ingredient ib1"><svg><use href="#ing-cashew"/></svg></div>
+      <div class="ingredient ib2"><svg><use href="#ing-pistachio"/></svg></div>
+      <div class="ingredient ib3"><svg><use href="#ing-rose"/></svg></div>
+      <div class="ingredient ib4"><svg><use href="#ing-ghee"/></svg></div>
+    </div>
+
+    <div class="hero-left">
+      <h1 class="main-title">
+        <span class="accent-line">Pure</span><br>Traditional
+      </h1>
+      <p class="description">
+        Freshly prepared sweets made with pure ghee, rich dry fruits,<br>
+        and authentic homemade taste.
+      </p>
+      <div class="cta-group">
+        <button class="primary-btn" id="exploreBtn">
+          Explore Specials
+          <span class="plus-icon">+</span>
+        </button>
+      </div>
+      <div class="award-badge">
+        <div class="award-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 15L15 18L19 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="award-text">
+          <span class="award-title">VENDOR SPECIALITY</span>
+          <span class="award-subtitle">Fresh Daily &bull; Pure Ghee</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-center">
+      <div class="product-stage" id="productStage">
+        <div class="product-glow"></div>
+        <div class="product-plate">
+          <svg class="plate-svg" viewBox="0 0 300 300">
+            <defs>
+              <radialGradient id="plateGrad" cx="50%" cy="42%" r="65%">
+                <stop offset="0%" stop-color="#3a2210"/>
+                <stop offset="70%" stop-color="#1a0e05"/>
+                <stop offset="100%" stop-color="#0b0603"/>
+              </radialGradient>
+            </defs>
+            <circle cx="150" cy="150" r="140" fill="url(#plateGrad)" stroke="#ffd166" stroke-width="3" stroke-opacity="0.7"/>
+            <circle cx="150" cy="150" r="118" fill="none" stroke="#ffe08a" stroke-width="1.2" stroke-opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="product-sweet-wrap" id="sweetWrap">
+          <svg class="product-sweet-svg" id="sweetSvg" viewBox="0 0 200 200">
+            <use id="sweetUse" href="#sweet-mysorepak"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="ingredients-container">
+      <div class="ingredient i1"><svg><use href="#ing-almond"/></svg></div>
+      <div class="ingredient i2"><svg><use href="#ing-cardamom"/></svg></div>
+      <div class="ingredient i3"><svg><use href="#ing-pistachio"/></svg></div>
+      <div class="ingredient i4"><svg><use href="#ing-saffron"/></svg></div>
+      <div class="ingredient i5"><svg><use href="#ing-rose"/></svg></div>
+      <div class="ingredient i6"><svg><use href="#ing-cashew"/></svg></div>
+      <div class="ingredient i7"><svg><use href="#ing-ghee"/></svg></div>
+      <div class="ingredient i8"><svg><use href="#ing-almond"/></svg></div>
+    </div>
+
+    <div class="hero-right">
+      <span class="section-title">Vendor Speciality</span>
+      <div class="sweet-grid" id="sweetGrid">
+        <div class="sweet-card active" data-sweet="mysorepak">
+          <svg class="card-sweet-svg"><use href="#sweet-mysorepak"/></svg>
+          <span class="card-name">Mysore Pak</span>
+          <span class="card-price">From ₹280</span>
+          <span class="card-weight">250g / 500g / 1kg</span>
+        </div>
+        <div class="sweet-card" data-sweet="kajukatli">
+          <svg class="card-sweet-svg"><use href="#sweet-kajukatli"/></svg>
+          <span class="card-name">Kaju Katli</span>
+          <span class="card-price">From ₹650</span>
+          <span class="card-weight">250g / 500g / 1kg</span>
+        </div>
+        <div class="sweet-card" data-sweet="gulabjamun">
+          <svg class="card-sweet-svg"><use href="#sweet-gulabjamun"/></svg>
+          <span class="card-name">Gulab Jamun</span>
+          <span class="card-price">From ₹220</span>
+          <span class="card-weight">250g / 500g / 1kg</span>
+        </div>
+        <div class="sweet-card" data-sweet="motichoor">
+          <svg class="card-sweet-svg"><use href="#sweet-motichoor"/></svg>
+          <span class="card-name">Motichoor Laddu</span>
+          <span class="card-price">From ₹240</span>
+          <span class="card-weight">250g / 500g / 1kg</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+
+<symbol id="ing-almond" viewBox="0 0 64 64">
+  <radialGradient id="almondGrad" cx="35%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#f2cf9c"/><stop offset="100%" stop-color="#c68a4c"/>
+  </radialGradient>
+  <path d="M32 4C42 12 48 26 44 42C41 54 23 54 20 42C16 26 22 12 32 4Z" fill="url(#almondGrad)" stroke="#8a5a26" stroke-width="1"/>
+  <path d="M32 10C37 18 40 28 38 38" stroke="#8a5a26" stroke-width="1" fill="none" opacity="0.5"/>
+</symbol>
+
+<symbol id="ing-cashew" viewBox="0 0 64 64">
+  <linearGradient id="cashewGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#f6e9c9"/><stop offset="100%" stop-color="#d9bd80"/>
+  </linearGradient>
+  <path d="M20 44C10 40 8 24 20 14C28 7 42 10 46 20C50 30 42 30 38 26C34 22 28 24 28 32C28 40 34 44 42 42C46 41 46 48 40 50C32 53 26 50 20 44Z" fill="url(#cashewGrad)" stroke="#a9873f" stroke-width="1"/>
+</symbol>
+
+<symbol id="ing-pistachio" viewBox="0 0 64 64">
+  <linearGradient id="pistaGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#a9c968"/><stop offset="100%" stop-color="#6d8f3c"/>
+  </linearGradient>
+  <path d="M32 4C42 4 48 16 48 30C48 46 41 58 32 58C23 58 16 46 16 30C16 16 22 4 32 4Z" fill="#e9dfc4" stroke="#8a7a4a" stroke-width="1"/>
+  <path d="M32 8C38 10 42 20 42 30C42 42 37 52 32 54" fill="url(#pistaGrad)"/>
+</symbol>
+
+<symbol id="ing-saffron" viewBox="0 0 64 64">
+  <g fill="none" stroke-linecap="round">
+    <path d="M12 52C18 40 24 26 34 10" stroke="#c62b12" stroke-width="3"/>
+    <path d="M20 54C26 42 32 28 40 8" stroke="#e2431e" stroke-width="3"/>
+    <path d="M30 56C35 44 40 30 46 12" stroke="#ff7a3d" stroke-width="3"/>
+  </g>
+</symbol>
+
+<symbol id="ing-cardamom" viewBox="0 0 64 64">
+  <radialGradient id="cardGrad" cx="35%" cy="30%" r="70%">
+    <stop offset="0%" stop-color="#8fb96a"/><stop offset="100%" stop-color="#3f6428"/>
+  </radialGradient>
+  <path d="M32 6C44 6 50 20 50 32C50 46 42 58 32 58C22 58 14 46 14 32C14 20 20 6 32 6Z" fill="url(#cardGrad)" stroke="#294a18" stroke-width="1"/>
+  <path d="M32 10V54" stroke="#294a18" stroke-width="1" opacity="0.5"/>
+  <path d="M22 20C28 24 36 24 42 20" stroke="#294a18" stroke-width="1" opacity="0.4" fill="none"/>
+</symbol>
+
+<symbol id="ing-ghee" viewBox="0 0 64 64">
+  <radialGradient id="gheeGrad" cx="35%" cy="25%" r="75%">
+    <stop offset="0%" stop-color="#fff3c4"/><stop offset="60%" stop-color="#ffd54a"/><stop offset="100%" stop-color="#e0a422"/>
+  </radialGradient>
+  <path d="M32 6C42 24 48 34 48 42C48 52 41 58 32 58C23 58 16 52 16 42C16 34 22 24 32 6Z" fill="url(#gheeGrad)"/>
+  <ellipse cx="26" cy="30" rx="4" ry="6" fill="#fffbe8" opacity="0.7"/>
+</symbol>
+
+<symbol id="ing-rose" viewBox="0 0 64 64">
+  <radialGradient id="roseGrad" cx="40%" cy="35%" r="70%">
+    <stop offset="0%" stop-color="#ffe1e8"/><stop offset="100%" stop-color="#e8829a"/>
+  </radialGradient>
+  <path d="M32 6C46 10 50 26 40 34C50 38 46 54 32 58C18 54 14 38 24 34C14 26 18 10 32 6Z" fill="url(#roseGrad)" stroke="#c05a76" stroke-width="1"/>
+</symbol>
+
+<symbol id="sweet-mysorepak" viewBox="0 0 200 200">
+  <linearGradient id="mpGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#ffe29a"/><stop offset="100%" stop-color="#d68a16"/>
+  </linearGradient>
+  <g stroke="#8a5406" stroke-width="1.5">
+    <rect x="46" y="96" width="60" height="52" rx="6" fill="url(#mpGrad)" transform="rotate(-6 76 122)"/>
+    <rect x="88" y="86" width="60" height="52" rx="6" fill="url(#mpGrad)" transform="rotate(4 118 112)"/>
+    <rect x="66" y="46" width="60" height="52" rx="6" fill="url(#mpGrad)" transform="rotate(-3 96 72)"/>
+  </g>
+  <ellipse cx="80" cy="58" rx="14" ry="6" fill="#fff6da" opacity="0.55"/>
+</symbol>
+
+<symbol id="sweet-kajukatli" viewBox="0 0 200 200">
+  <linearGradient id="kkGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#fff6de"/><stop offset="100%" stop-color="#c9b98f"/>
+  </linearGradient>
+  <g stroke="#8a7c54" stroke-width="1.4">
+    <polygon points="100,40 138,100 100,160 62,100" fill="url(#kkGrad)" transform="translate(-24,-6) rotate(-8 100 100)"/>
+    <polygon points="100,40 138,100 100,160 62,100" fill="url(#kkGrad)" transform="translate(10,10) rotate(6 100 100)"/>
+    <polygon points="100,40 138,100 100,160 62,100" fill="url(#kkGrad)" transform="translate(32,-14) rotate(-2 100 100)"/>
+  </g>
+  <polygon points="76,58 118,58 108,80 86,80" fill="#ffffff" opacity="0.6"/>
+</symbol>
+
+<symbol id="sweet-gulabjamun" viewBox="0 0 200 200">
+  <radialGradient id="gjSyrup" cx="50%" cy="60%" r="60%">
+    <stop offset="0%" stop-color="#5a1a10"/><stop offset="100%" stop-color="#2c0b06"/>
+  </radialGradient>
+  <ellipse cx="100" cy="146" rx="72" ry="24" fill="url(#gjSyrup)"/>
+  <radialGradient id="gjBall" cx="35%" cy="28%" r="75%">
+    <stop offset="0%" stop-color="#c9603a"/><stop offset="55%" stop-color="#8b2f1f"/><stop offset="100%" stop-color="#4b130d"/>
+  </radialGradient>
+  <circle cx="76" cy="110" r="34" fill="url(#gjBall)"/>
+  <circle cx="130" cy="118" r="30" fill="url(#gjBall)"/>
+  <circle cx="102" cy="86" r="28" fill="url(#gjBall)"/>
+  <ellipse cx="92" cy="76" rx="8" ry="5" fill="#ffb36b" opacity="0.55"/>
+</symbol>
+
+<symbol id="sweet-motichoor" viewBox="0 0 200 200">
+  <radialGradient id="mlGrad" cx="35%" cy="28%" r="75%">
+    <stop offset="0%" stop-color="#ffe08a"/><stop offset="55%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#9a4f05"/>
+  </radialGradient>
+  <circle cx="100" cy="104" r="58" fill="url(#mlGrad)"/>
+  <g fill="#c97a06" opacity="0.55">
+    <circle cx="70" cy="80" r="4"/><circle cx="90" cy="66" r="4"/><circle cx="112" cy="70" r="4"/>
+    <circle cx="130" cy="90" r="4"/><circle cx="136" cy="114" r="4"/><circle cx="120" cy="134" r="4"/>
+    <circle cx="96" cy="144" r="4"/><circle cx="74" cy="132" r="4"/><circle cx="64" cy="106" r="4"/>
+    <circle cx="100" cy="104" r="4"/><circle cx="84" cy="112" r="4"/><circle cx="112" cy="112" r="4"/>
+  </g>
+  <circle cx="98" cy="60" r="5" fill="#f2f2f2" opacity="0.8"/>
+</symbol>
+
+</defs>
+</svg>
+
+<script>
+const SWEETS = {
+  mysorepak:  { inner:'#d68a16', mid:'#7a3f08', outer:'#1f1003', accent:'#ffd166', label:'Mysore Pak' },
+  kajukatli:  { inner:'#c9b98f', mid:'#6f684f', outer:'#18150f', accent:'#fff1c7', label:'Kaju Katli' },
+  gulabjamun: { inner:'#8b2f1f', mid:'#4b130d', outer:'#180504', accent:'#ffb36b', label:'Gulab Jamun' },
+  motichoor:  { inner:'#f59e0b', mid:'#9a4f05', outer:'#241003', accent:'#ffe08a', label:'Motichoor Laddu' }
+};
+
+const body = document.body;
+const productStage = document.getElementById('productStage');
+const sweetWrap = document.getElementById('sweetWrap');
+const sweetUse = document.getElementById('sweetUse');
+const productLabel = document.createElement('div');
+productLabel.className = 'product-label';
+productLabel.textContent = SWEETS.mysorepak.label;
+productStage.appendChild(productLabel);
+
+const ingredientsFG = document.querySelector('.ingredients-container');
+const ingredientsBG = document.querySelector('.ingredients-container-bg');
+const allIngredients = document.querySelectorAll('.ingredient');
+const cards = document.querySelectorAll('.sweet-card');
+
+let isSwitching = false;
+let spin = 0;
+
+allIngredients.forEach(el => {
+  el.dataset.rx = 0; el.dataset.ry = 0; el.dataset.angle = Math.random() * 360;
+  el.dataset.baseX = 0; el.dataset.baseY = 0;
+});
+
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    if (isSwitching) return;
+    cards.forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    selectSweet(card.dataset.sweet);
+  });
+});
+
+document.getElementById('exploreBtn').addEventListener('click', () => {
+  document.getElementById('sweetGrid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+function selectSweet(key) {
+  if (isSwitching) return;
+  isSwitching = true;
+  const theme = SWEETS[key];
+
+  gsap.to(body, {
+    '--bg-inner': theme.inner,
+    '--bg-mid': theme.mid,
+    '--bg-outer': theme.outer,
+    '--accent': theme.accent,
+    duration: 1.5,
+    ease: 'power2.inOut'
+  });
+
+  const spinObj = { val: 0, blur: 0 };
+  gsap.to(spinObj, {
+    val: 360,
+    blur: 14,
+    duration: 0.6,
+    ease: 'power2.in',
+    onUpdate: () => {
+      spin = spinObj.val;
+      sweetWrap.style.filter = `blur(${spinObj.blur}px)`;
+    },
+    onComplete: () => {
+      sweetUse.setAttribute('href', '#sweet-' + key);
+      productLabel.textContent = theme.label;
+
+      gsap.to(spinObj, {
+        val: 720,
+        blur: 0,
+        duration: 1.4,
+        ease: 'back.out(0.6)',
+        onUpdate: () => {
+          spin = spinObj.val;
+          sweetWrap.style.filter = `blur(${spinObj.blur}px)`;
+        },
+        onComplete: () => {
+          spin = 0;
+          sweetWrap.style.filter = 'none';
+        }
+      });
+    }
+  });
+
+  let completed = 0;
+  allIngredients.forEach((el) => {
+    const w = el.offsetWidth / 2;
+    const h = el.offsetHeight / 2;
+    const centerX = (window.innerWidth / 2 - el.offsetLeft - w);
+    const centerY = (window.innerHeight / 2 - el.offsetTop - h);
+
+    const startAngle = parseFloat(el.dataset.angle) || 0;
+    const baseX = parseFloat(el.dataset.baseX) || 0;
+    const baseY = parseFloat(el.dataset.baseY) || 0;
+    const nextX = (Math.random() - 0.5) * 220;
+    const nextY = (Math.random() - 0.5) * 220;
+
+    gsap.set(el, { rotation: startAngle, x: baseX, y: baseY });
+
+    gsap.timeline()
+      .to(el, {
+        x: centerX, y: centerY, rotation: startAngle + 45,
+        scale: 0.1, opacity: 0, duration: 0.5, ease: 'power2.in'
+      })
+      .to(el, { duration: 0.3 })
+      .to(el, {
+        x: nextX, y: nextY, rotation: startAngle + 90,
+        scale: 1, opacity: 1, duration: 0.9, ease: 'back.out(1.5)',
+        onComplete: () => {
+          el.dataset.angle = startAngle + 90;
+          el.dataset.baseX = nextX;
+          el.dataset.baseY = nextY;
+          el.dataset.rx = 0;
+          el.dataset.ry = 0;
+          completed++;
+          if (completed === allIngredients.length) isSwitching = false;
+        }
+      });
+  });
+}
+
+let mouse = { x: 0, y: 0, px: 0, py: 0 };
+let currentMouse = { x: 0, y: 0 };
+
+window.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) - 0.5;
+  mouse.y = (e.clientY / window.innerHeight) - 0.5;
+  mouse.px = e.clientX;
+  mouse.py = e.clientY;
+});
+
+function animate() {
+  const time = Date.now() * 0.001;
+  currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
+  currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
+
+  const floatY = Math.sin(time * 1.1) * 16;
+  productStage.style.transform =
+    `translate(-50%, calc(-50% + ${floatY}px))`;
+  sweetWrap.style.transform =
+    `perspective(1200px) rotateY(${currentMouse.x * 36}deg) rotateX(${-currentMouse.y * 20}deg) rotateZ(${spin}deg)`;
+
+  ingredientsFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
+  ingredientsBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
+
+  if (!isSwitching) {
+    allIngredients.forEach((el, i) => {
+      const rect = el.getBoundingClientRect();
+      const ex = rect.left + rect.width / 2;
+      const ey = rect.top + rect.height / 2;
+      const dx = mouse.px - ex;
+      const dy = mouse.py - ey;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      let targetRx = 0, targetRy = 0, speedMult = 1;
+      if (dist < 380) {
+        const force = (380 - dist) / 380;
+        targetRx = (dx / dist) * force * -70;
+        targetRy = (dy / dist) * force * -70;
+        speedMult = 1 + force * 5;
+      }
+
+      let rx = parseFloat(el.dataset.rx) || 0;
+      let ry = parseFloat(el.dataset.ry) || 0;
+      let angle = parseFloat(el.dataset.angle) || 0;
+      const baseX = parseFloat(el.dataset.baseX) || 0;
+      const baseY = parseFloat(el.dataset.baseY) || 0;
+
+      rx += (targetRx - rx) * 0.1;
+      ry += (targetRy - ry) * 0.1;
+      angle += 0.18 * speedMult;
+
+      el.dataset.rx = rx;
+      el.dataset.ry = ry;
+      el.dataset.angle = angle;
+
+      const dur = [5, 7, 6, 8, 5.5, 6.5, 9, 11, 10][i % 9];
+      const phase = (time + i * 0.7) * (Math.PI * 2 / dur);
+      const fy = Math.sin(phase) * 14;
+      const fa = Math.cos(phase) * 6;
+
+      el.style.transform = `translate(calc(${rx + baseX}px), calc(${ry + baseY}px + ${fy}px)) rotate(calc(${angle}deg + ${fa}deg))`;
+    });
+  }
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+const particlesContainer = document.getElementById('particles-container');
+function createParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 8 + 4;
+  p.style.width = size + 'px';
+  p.style.height = size + 'px';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.bottom = '-20px';
+  const duration = Math.random() * 6 + 5;
+  p.style.animation = `floatUpParticle ${duration}s linear forwards`;
+  particlesContainer.appendChild(p);
+  setTimeout(() => p.remove(), duration * 1000);
+}
+setInterval(createParticle, 350);
+</script>
+</body>
+</html>
