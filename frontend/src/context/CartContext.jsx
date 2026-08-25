@@ -3,7 +3,7 @@ import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING, GST_RATE } from "../lib/currenc
 import { playAddToCartChime } from "../lib/sound.js";
 
 const CartContext = createContext(null);
-const STORAGE_KEY = "mithai-ghar-cart";
+const STORAGE_KEY = "vijaya-cottage-cart";
 
 function lineKey(productId, weightLabel) {
   return `${productId}::${weightLabel}`;

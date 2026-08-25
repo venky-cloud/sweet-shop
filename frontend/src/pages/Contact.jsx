@@ -20,7 +20,7 @@ export default function Contact() {
         <p className="mt-4 text-ink-soft">Questions about an order, a festival box, or bulk gifting? Send us a note.</p>
 
         <div className="mt-8 space-y-4 text-sm">
-          <p><span className="font-semibold text-ink">Email:</span> <a href="mailto:hello@mithaighar.shop" className="text-maroon hover:underline">hello@mithaighar.shop</a></p>
+          <p><span className="font-semibold text-ink">Email:</span> <a href="mailto:hello@vijayacottage.shop" className="text-maroon hover:underline">hello@vijayacottage.shop</a></p>
           <p><span className="font-semibold text-ink">Phone:</span> <a href="tel:+912212345678" className="text-maroon hover:underline">+91 22 1234 5678</a></p>
           <p><span className="font-semibold text-ink">Address:</span> 120 Ghee Lane, Mumbai</p>
           <p><span className="font-semibold text-ink">Hours:</span> Daily, 8am – 9pm</p>

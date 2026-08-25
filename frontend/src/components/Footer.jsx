@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-heading text-lg font-semibold">
-            <span aria-hidden="true">🪔</span> Mithai Ghar
+            <span aria-hidden="true">🪔</span> Vijaya Cottage
           </div>
           <p className="mt-3 text-sm text-white/70 max-w-xs">
             Traditional Indian sweets, hand-made in small batches with pure desi ghee — from
@@ -37,13 +37,13 @@ export default function Footer() {
           <h3 className="text-xs font-semibold uppercase tracking-widest text-white/50">Visit</h3>
           <address className="mt-3 not-italic text-sm text-white/85 space-y-1">
             <p>120 Ghee Lane, Mumbai</p>
-            <p><a href="mailto:hello@mithaighar.shop" className="hover:text-white">hello@mithaighar.shop</a></p>
+            <p><a href="mailto:hello@vijayacottage.shop" className="hover:text-white">hello@vijayacottage.shop</a></p>
             <p><a href="tel:+912212345678" className="hover:text-white">+91 22 1234 5678</a></p>
           </address>
         </div>
       </div>
       <div className="border-t border-white/15 py-4 text-center text-xs text-white/60">
-        © 2026 Mithai Ghar. All rights reserved.
+        © 2026 Vijaya Cottage. All rights reserved.
       </div>
     </footer>
   );

@@ -28,7 +28,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
         <NavLink to="/" className="flex items-center gap-2 font-heading text-xl font-semibold text-maroon">
           <span className="text-2xl" aria-hidden="true">🪔</span>
-          Mithai Ghar
+          Vijaya Cottage
         </NavLink>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-ink-soft">

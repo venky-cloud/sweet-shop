@@ -16,7 +16,7 @@ export default function About() {
           <p className="text-xs font-semibold uppercase tracking-widest text-maroon">Our story</p>
           <h1 className="mt-3 font-heading text-4xl font-semibold text-ink">Sweets made the slow way</h1>
           <p className="mt-6 text-ink-soft leading-relaxed max-w-2xl">
-            Mithai Ghar started as a family kitchen selling hand-rolled laddus at the local market. Today
+            Vijaya Cottage started as a family kitchen selling hand-rolled laddus at the local market. Today
             we're a full mithai shop, but the recipe hasn't changed: pure ghee, honest ingredients, and
             recipes passed down through generations. Everything you see in our shop — from Bengali rasgulla
             to Rajasthani ghevar — is hand-made by our team of confectioners using traditional methods.

@@ -1,4 +1,4 @@
-# Mithai Ghar — Indian Sweets Web App
+# Vijaya Cottage — Indian Sweets Web App
 
 Full-stack e-commerce demo for a traditional Indian mithai (sweets) shop: browse a 49-item
 catalog — 46 sweets plus a Pure Ghee line — priced in Indian Rupees (₹), view rich product
