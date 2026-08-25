@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     getProducts({})
       .then((all) => {
-        setFeatured(all.filter((p) => p.featured).slice(0, 4));
+        setFeatured(all.filter((p) => p.featured).slice(0, 5));
       })
       .finally(() => setLoading(false));
   }, []);
@@ -62,13 +62,26 @@ export default function Home() {
         {loading ? (
           <p className="mt-8 text-ink-soft">Loading sweets…</p>
         ) : (
-          <ul className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-5">
-            {featured.map((p, i) => (
-              <Reveal key={p._id} as="li" delay={i * 0.08} className="list-none">
-                <ProductCard product={p} />
-              </Reveal>
-            ))}
-          </ul>
+          <div className="relative mt-8">
+            <ul className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 lg:grid-cols-5 sm:gap-5 sm:overflow-visible">
+              {featured.map((p, i) => (
+                <Reveal
+                  key={p._id}
+                  as="li"
+                  delay={i * 0.08}
+                  className="w-[calc((100%_-_2rem)/3)] shrink-0 snap-start sm:w-auto list-none"
+                >
+                  <ProductCard product={p} />
+                </Reveal>
+              ))}
+            </ul>
+            <span
+              className="absolute top-1/2 right-1 -translate-y-1/2 sm:hidden grid place-items-center size-8 rounded-full bg-white/80 shadow-mithai text-maroon pointer-events-none"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </div>
         )}
       </section>
 

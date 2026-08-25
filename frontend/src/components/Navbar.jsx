@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
+import { useFavorites } from "../context/FavoritesContext.jsx";
 import { useEffect, useState } from "react";
 
 const links = [
@@ -11,6 +12,7 @@ const links = [
 
 export default function Navbar() {
   const { totals } = useCart();
+  const { favoriteIds } = useFavorites();
   const [open, setOpen] = useState(false);
   const [bump, setBump] = useState(false);
 
@@ -26,7 +28,11 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-hairline">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
-        <NavLink to="/" className="flex items-center gap-2 font-heading text-xl font-semibold text-maroon">
+        <NavLink
+          to="/"
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-2 font-heading text-xl font-semibold text-maroon"
+        >
           <span className="text-2xl" aria-hidden="true">🪔</span>
           Vijaya Cottage
         </NavLink>
@@ -45,6 +51,19 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <NavLink
+            to="/favorites"
+            onClick={() => setOpen(false)}
+            aria-label="Favourites"
+            className="relative grid place-items-center size-10 rounded-full bg-white border border-hairline hover:border-maroon transition-colors"
+          >
+            <span aria-hidden="true">🤍</span>
+            {favoriteIds.length > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 grid place-items-center size-5 rounded-full bg-marigold text-ink text-xs font-bold">
+                {favoriteIds.length}
+              </span>
+            )}
+          </NavLink>
           <NavLink
             id="nav-cart-icon"
             to="/cart"

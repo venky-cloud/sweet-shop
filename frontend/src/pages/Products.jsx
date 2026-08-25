@@ -81,7 +81,7 @@ export default function Products() {
       ) : filtered.length === 0 ? (
         <p className="mt-12 text-ink-soft">No sweets match your search just yet.</p>
       ) : (
-        <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <ul className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
           {filtered.map((p, i) => (
             <Reveal key={p._id} as="li" delay={(i % 8) * 0.05} className="list-none">
               <ProductCard product={p} />

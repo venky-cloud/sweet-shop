@@ -32,3 +32,12 @@ h1, h2, h3, h4 {
 .jali-border {
   background-image: repeating-linear-gradient(135deg, rgba(232, 163, 61, 0.5) 0 2px, transparent 2px 10px);
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

@@ -163,7 +163,7 @@ export default function VendorSpecialtyHero() {
         style={{ background: gradientCss(theme) }}
       />
 
-      <div className="relative z-[5] mx-auto max-w-6xl px-4 sm:px-6 py-14 grid gap-8 lg:grid-cols-[1fr_auto_1fr] items-center min-h-[88vh]">
+      <div className="relative z-[5] mx-auto max-w-6xl px-4 sm:px-6 py-8 lg:py-14 grid gap-4 lg:gap-8 lg:grid-cols-[1fr_auto_1fr] items-center min-h-[88vh]">
         <div>
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--v-accent)" }}>
             <span className="size-1.5 rounded-full" style={{ background: "var(--v-accent)" }} /> Fresh Daily &bull; Pure Ghee
@@ -183,7 +183,7 @@ export default function VendorSpecialtyHero() {
               Explore Specials
             </Link>
           </div>
-          <div className="mt-10 flex items-center gap-3">
+          <div className="mt-6 lg:mt-10 flex items-center gap-3">
             <div className="size-12 rounded-xl bg-white/10 border border-white/20 grid place-items-center" style={{ color: "var(--v-accent)" }}>
               <span aria-hidden="true">✦</span>
             </div>
