@@ -11,7 +11,7 @@ const SPECIALTIES = [
   { slug: "motichoor-laddu", theme: { inner: "#f59e0b", mid: "#9a4f05", outer: "#241003", accent: "#ffe08a" } },
 ].map((s) => ({ ...s, product: fallbackProducts.find((p) => p.slug === s.slug) })).filter((s) => s.product);
 
-const AUTO_ADVANCE_MS = 3500;
+const AUTO_ADVANCE_MS = 3000;
 
 function gradientCss(theme) {
   return `radial-gradient(circle at center, ${theme.inner} 0%, ${theme.mid} 48%, ${theme.outer} 100%)`;
@@ -29,6 +29,7 @@ export default function VendorSpecialtyHero() {
   const mouseRef = useRef({ x: 0, y: 0 });
   const currentMouseRef = useRef({ x: 0, y: 0 });
   const activeIndexRef = useRef(0);
+  const advanceTimerRef = useRef(null);
 
   useEffect(() => {
     function onMove(e) {
@@ -62,11 +63,16 @@ export default function VendorSpecialtyHero() {
   }, []);
 
   useEffect(() => {
-    const id = setInterval(() => {
+    scheduleNextAdvance();
+    return () => clearTimeout(advanceTimerRef.current);
+  }, []);
+
+  function scheduleNextAdvance() {
+    clearTimeout(advanceTimerRef.current);
+    advanceTimerRef.current = setTimeout(() => {
       goToIndex((activeIndexRef.current + 1) % SPECIALTIES.length);
     }, AUTO_ADVANCE_MS);
-    return () => clearInterval(id);
-  }, []);
+  }
 
   function goToIndex(index) {
     if (index === activeIndexRef.current) return;
@@ -76,6 +82,7 @@ export default function VendorSpecialtyHero() {
     setFadeKey((k) => k + 1);
     setActiveSlug(item.slug);
     activeIndexRef.current = index;
+    scheduleNextAdvance();
   }
 
   function spawnBurst(x, y) {
@@ -163,7 +170,7 @@ export default function VendorSpecialtyHero() {
         style={{ background: gradientCss(theme) }}
       />
 
-      <div className="relative z-[5] mx-auto max-w-6xl px-4 sm:px-6 py-8 lg:py-14 grid gap-4 lg:gap-8 lg:grid-cols-[1fr_auto_1fr] items-center min-h-[88vh]">
+      <div className="relative z-[5] mx-auto max-w-7xl px-4 sm:px-6 py-8 lg:py-14 grid gap-4 lg:gap-8 lg:grid-cols-[1fr_auto_1fr] items-center min-h-[88vh]">
         <div>
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--v-accent)" }}>
             <span className="size-1.5 rounded-full" style={{ background: "var(--v-accent)" }} /> Fresh Daily &bull; Pure Ghee
@@ -219,16 +226,15 @@ export default function VendorSpecialtyHero() {
                 type="button"
                 onClick={handleAddToCart}
                 disabled={activeProduct.stock <= 0}
-                className={`relative rounded-full px-6 py-3 text-sm font-bold text-center shadow-lg transition-all duration-200 active:scale-95 hover:scale-105 disabled:opacity-50 disabled:pointer-events-none ${
-                  justAdded ? "bg-emerald-500 text-white" : "text-[#2a1400]"
-                }`}
+                className={`relative rounded-full px-6 py-3 text-sm font-bold text-center shadow-lg transition-all duration-200 active:scale-95 hover:scale-105 disabled:opacity-50 disabled:pointer-events-none ${justAdded ? "bg-rose-600 text-white" : "text-[#2a1400]"
+                  }`}
                 style={!justAdded ? { background: "var(--v-accent)" } : undefined}
               >
                 {justAdded
                   ? "✓ Added to Cart"
                   : activeProduct.stock <= 0
-                  ? "Out of stock"
-                  : `Add to Cart — ${formatINR(activeProduct.weightOptions[0].price)}`}
+                    ? "Out of stock"
+                    : `Add to Cart — ${formatINR(activeProduct.weightOptions[0].price)}`}
               </button>
             </div>
           </div>
@@ -245,9 +251,8 @@ export default function VendorSpecialtyHero() {
                   key={s.slug}
                   type="button"
                   onClick={() => goToIndex(index)}
-                  className={`w-full rounded-3xl border p-3 text-center backdrop-blur-md transition-colors duration-300 ${
-                    isActive ? "shadow-[0_0_0_1px_var(--v-accent),0_15px_30px_rgba(0,0,0,0.35)]" : "hover:bg-white/10"
-                  }`}
+                  className={`w-full rounded-3xl border p-3 text-center backdrop-blur-md transition-colors duration-300 ${isActive ? "shadow-[0_0_0_1px_var(--v-accent),0_15px_30px_rgba(0,0,0,0.35)]" : "hover:bg-white/10"
+                    }`}
                   style={{
                     background: "rgba(255,255,255,0.06)",
                     borderColor: isActive ? "var(--v-accent)" : "rgba(255,255,255,0.15)",

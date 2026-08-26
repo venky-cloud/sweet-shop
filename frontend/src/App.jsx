@@ -17,7 +17,7 @@ export default function App() {
     <div className="flex min-h-screen flex-col bg-cream bg-blob">
       <ScrollToTop />
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

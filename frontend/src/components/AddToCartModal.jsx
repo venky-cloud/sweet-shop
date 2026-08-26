@@ -20,7 +20,7 @@ export default function AddToCartModal({ product, onClose, onConfirm }) {
           <img src={product.image} alt={product.name} className="size-14 rounded-xl object-cover shrink-0" />
           <div className="min-w-0">
             <p className="font-heading font-semibold text-ink truncate">{product.name}</p>
-            <p className="text-sm text-ink-soft">{inStock ? `${product.stock} in stock` : "Out of stock"}</p>
+            <p className="text-sm text-ink-soft">{inStock ? "In stock" : "Out of stock"}</p>
           </div>
         </div>
 

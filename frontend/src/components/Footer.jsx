@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-maroon text-white mt-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-4">
+    <footer className="bg-maroon text-white mt-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-heading text-lg font-semibold">
             <span aria-hidden="true">🪔</span> Vijaya Cottage

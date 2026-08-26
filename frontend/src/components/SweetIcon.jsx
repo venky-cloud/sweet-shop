@@ -6,7 +6,7 @@ const FILLS = {
   brown: { base: "#8A5A2B", light: "#C08849", dark: "#5E3A1A" },
   white: { base: "#FFFBF2", light: "#FFFFFF", dark: "#F0E4C8" },
   orange: { base: "#F0762B", light: "#FBAA6B", dark: "#C4531A" },
-  red: { base: "#D6432F", light: "#F17A5E", dark: "#A32C1D" },
+  red: { base: "#D6432F", light: "#F17A5E", dark: "#000000ff" },
   silver: { base: "#E4E7EC", light: "#FFFFFF", dark: "#B9C0CC" },
   green: { base: "#DDEFD8", light: "#F3FBEF", dark: "#B7D9AC" },
   cream: { base: "#FBF3E3", light: "#FFFDF7", dark: "#EBDCB8" },

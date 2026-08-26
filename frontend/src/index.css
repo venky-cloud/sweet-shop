@@ -6,20 +6,19 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  overflow-x: hidden;
-}
-
 body {
   min-height: 100vh;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: "Playfair Display", Georgia, serif;
 }
 
 :focus-visible {
-  outline: 2px solid #e8a33d;
+  outline: 2px solid #eb8f05;
   outline-offset: 2px;
 }
 

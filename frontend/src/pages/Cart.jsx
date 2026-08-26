@@ -47,7 +47,7 @@ export default function Cart() {
                 <p className="font-semibold truncate text-ink">{item.name}</p>
                 <p className="text-sm text-ink-soft">{item.weightLabel} · {formatINR(item.price)} each</p>
               </div>
-              <QuantityStepper qty={item.qty} onChange={(q) => updateQty(item.key, q)} />
+              <QuantityStepper qty={item.qty} onChange={(q) => updateQty(item.key, q)} max={item.stock} />
               <p className="w-20 text-right font-semibold text-ink">{formatINR(item.price * item.qty)}</p>
               <button
                 onClick={() => removeItem(item.key)}

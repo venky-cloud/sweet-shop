@@ -39,10 +39,12 @@ export default function ProductDetails() {
       .catch(() => setStatus("error"));
   }, [idOrSlug]);
 
-  if (status === "loading") return <p className="mx-auto max-w-6xl px-4 sm:px-6 py-16 text-ink-soft">Loading…</p>;
+  const inStock = product?.stock > 0;
+
+  if (status === "loading") return <p className="mx-auto max-w-7xl px-4 sm:px-6 py-16 text-ink-soft">Loading…</p>;
   if (status === "error" || !product) {
     return (
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-16 text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 text-center">
         <p className="text-ink-soft">We couldn't find that sweet.</p>
         <Link to="/products" className="mt-4 inline-block text-maroon font-semibold hover:underline">
           Back to all products
@@ -52,7 +54,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
       <button onClick={() => navigate(-1)} className="text-sm text-ink-soft hover:text-ink">
         ← Back
       </button>
@@ -70,7 +72,10 @@ export default function ProductDetails() {
           {/* Product name */}
           <p className="text-xs font-semibold uppercase tracking-wider text-marigold-dark">{product.category}</p>
           <h1 className="mt-2 font-heading text-3xl sm:text-4xl font-semibold text-ink">{product.name}</h1>
-          <p className="mt-2 text-ink-soft">⭐ {product.rating?.toFixed(1) ?? "4.5"} · {product.stock} in stock</p>
+          <p className="mt-2 text-ink-soft">
+            ⭐ {product.rating?.toFixed(1) ?? "4.5"} ·{" "}
+            <span className={inStock ? "" : "text-red-600 font-semibold"}>{inStock ? "In stock" : "Out of stock"}</span>
+          </p>
 
           {/* Description */}
           <p className="mt-5 text-ink-soft leading-relaxed max-w-md">{product.description}</p>
@@ -130,18 +135,27 @@ export default function ProductDetails() {
           </p>
 
           {/* Quantity selector + Add to cart */}
-          <div className="mt-8 flex items-center gap-4">
-            <QuantityStepper qty={qty} onChange={setQty} max={product.stock || 20} />
+          {inStock ? (
+            <div className="mt-8 flex items-center gap-4">
+              <QuantityStepper qty={qty} onChange={setQty} max={product.stock} />
+              <button
+                onClick={() => {
+                  addItem(product, selectedWeight, qty);
+                  setAdded(true);
+                }}
+                className="rounded-full bg-maroon text-white px-6 py-3 text-sm font-semibold hover:bg-saffron transition-colors"
+              >
+                Add to cart
+              </button>
+            </div>
+          ) : (
             <button
-              onClick={() => {
-                addItem(product, selectedWeight, qty);
-                setAdded(true);
-              }}
-              className="rounded-full bg-maroon text-white px-6 py-3 text-sm font-semibold hover:bg-saffron transition-colors"
+              disabled
+              className="mt-8 rounded-full bg-hairline text-ink-soft px-6 py-3 text-sm font-semibold cursor-not-allowed"
             >
-              Add to cart
+              Out of stock
             </button>
-          </div>
+          )}
           {added && (
             <p className="mt-3 text-sm text-emerald-600 font-semibold">
               Added to cart! <Link to="/cart" className="underline">View cart</Link>

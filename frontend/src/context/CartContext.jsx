@@ -42,6 +42,7 @@ export function CartProvider({ children }) {
           shape: product.shape,
           fill: product.fill,
           tone: product.tone,
+          stock: product.stock,
           qty,
         },
       ];

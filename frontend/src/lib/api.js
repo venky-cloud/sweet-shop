@@ -10,7 +10,9 @@ async function safeFetch(path, options) {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.message || `Request failed (${res.status})`);
+    const err = new Error(body.message || `Request failed (${res.status})`);
+    err.status = res.status;
+    throw err;
   }
   return res.json();
 }
@@ -48,6 +50,11 @@ export async function createOrder(payload) {
   try {
     return { data: await safeFetch("/orders", { method: "POST", body: JSON.stringify(payload) }), demo: false };
   } catch (err) {
+    // A response with a status means the backend is reachable and actively
+    // rejected the request (e.g. validation) — surface that instead of
+    // masking it as an unreachable-backend demo order.
+    if (err.status) throw err;
+
     const items = payload.items.map((item) => {
       const product = fallbackProducts.find((p) => p._id === item.productId) || {};
       const option = (product.weightOptions || []).find((w) => w.label === item.weightLabel) || {};
