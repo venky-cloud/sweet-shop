@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { fallbackProducts } from "../data/products.js";
+import { getProduct, isLiveProduct } from "../lib/api.js";
 import { formatINR } from "../lib/currency.js";
 import { useCart } from "../context/CartContext.jsx";
 
-const SPECIALTIES = [
+const SPECIALTY_META = [
   { slug: "mysore-pak", theme: { inner: "#d68a16", mid: "#7a3f08", outer: "#1f1003", accent: "#ffd166" } },
   { slug: "kaju-katli", theme: { inner: "#c9b98f", mid: "#6f684f", outer: "#18150f", accent: "#fff1c7" } },
   { slug: "gulab-jamun", theme: { inner: "#8b2f1f", mid: "#4b130d", outer: "#180504", accent: "#ffb36b" } },
   { slug: "motichoor-laddu", theme: { inner: "#f59e0b", mid: "#9a4f05", outer: "#241003", accent: "#ffe08a" } },
-].map((s) => ({ ...s, product: fallbackProducts.find((p) => p.slug === s.slug) })).filter((s) => s.product);
+];
 
 const AUTO_ADVANCE_MS = 3000;
 
@@ -19,9 +19,10 @@ function gradientCss(theme) {
 
 export default function VendorSpecialtyHero() {
   const { addItem } = useCart();
-  const [activeSlug, setActiveSlug] = useState(SPECIALTIES[0].slug);
-  const [theme, setTheme] = useState(SPECIALTIES[0].theme);
-  const [prevTheme, setPrevTheme] = useState(SPECIALTIES[0].theme);
+  const [specialties, setSpecialties] = useState([]);
+  const [activeSlug, setActiveSlug] = useState(null);
+  const [theme, setTheme] = useState(SPECIALTY_META[0].theme);
+  const [prevTheme, setPrevTheme] = useState(SPECIALTY_META[0].theme);
   const [fadeKey, setFadeKey] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
 
@@ -63,21 +64,45 @@ export default function VendorSpecialtyHero() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      SPECIALTY_META.map((s) =>
+        getProduct(s.slug)
+          .then((product) => ({ ...s, product }))
+          .catch(() => null)
+      )
+    ).then((results) => {
+      if (cancelled) return;
+      const loaded = results.filter(Boolean);
+      setSpecialties(loaded);
+      if (loaded.length > 0) {
+        setActiveSlug(loaded[0].slug);
+        setTheme(loaded[0].theme);
+        setPrevTheme(loaded[0].theme);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (specialties.length === 0) return;
     scheduleNextAdvance();
     return () => clearTimeout(advanceTimerRef.current);
-  }, []);
+  }, [specialties.length]);
 
   function scheduleNextAdvance() {
     clearTimeout(advanceTimerRef.current);
     advanceTimerRef.current = setTimeout(() => {
-      goToIndex((activeIndexRef.current + 1) % SPECIALTIES.length);
+      goToIndex((activeIndexRef.current + 1) % specialties.length);
     }, AUTO_ADVANCE_MS);
   }
 
   function goToIndex(index) {
     if (index === activeIndexRef.current) return;
-    const item = SPECIALTIES[index];
-    setPrevTheme(SPECIALTIES[activeIndexRef.current].theme);
+    const item = specialties[index];
+    setPrevTheme(specialties[activeIndexRef.current].theme);
     setTheme(item.theme);
     setFadeKey((k) => k + 1);
     setActiveSlug(item.slug);
@@ -155,8 +180,11 @@ export default function VendorSpecialtyHero() {
     setTimeout(() => setJustAdded(false), 1600);
   }
 
-  const active = SPECIALTIES.find((s) => s.slug === activeSlug) ?? SPECIALTIES[0];
-  const activeProduct = active.product;
+  const active = specialties.find((s) => s.slug === activeSlug) ?? specialties[0];
+  const activeProduct = active?.product;
+  const canOrder = activeProduct ? isLiveProduct(activeProduct) : false;
+
+  if (!activeProduct) return null;
 
   return (
     <section
@@ -225,16 +253,18 @@ export default function VendorSpecialtyHero() {
               <button
                 type="button"
                 onClick={handleAddToCart}
-                disabled={activeProduct.stock <= 0}
+                disabled={!canOrder || activeProduct.stock <= 0}
                 className={`relative rounded-full px-6 py-3 text-sm font-bold text-center shadow-lg transition-all duration-200 active:scale-95 hover:scale-105 disabled:opacity-50 disabled:pointer-events-none ${justAdded ? "bg-rose-600 text-white" : "text-[#2a1400]"
                   }`}
                 style={!justAdded ? { background: "var(--v-accent)" } : undefined}
               >
                 {justAdded
                   ? "✓ Added to Cart"
-                  : activeProduct.stock <= 0
-                    ? "Out of stock"
-                    : `Add to Cart — ${formatINR(activeProduct.weightOptions[0].price)}`}
+                  : !canOrder
+                    ? "Unavailable"
+                    : activeProduct.stock <= 0
+                      ? "Out of stock"
+                      : `Add to Cart — ${formatINR(activeProduct.weightOptions[0].price)}`}
               </button>
             </div>
           </div>
@@ -243,7 +273,7 @@ export default function VendorSpecialtyHero() {
         <div className="flex flex-col items-center lg:items-end gap-4">
           <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--v-accent)" }}>Vendor Speciality</span>
           <div className="grid grid-cols-2 gap-3 pointer-events-auto">
-            {SPECIALTIES.map((s, index) => {
+            {specialties.map((s, index) => {
               const p = s.product;
               const isActive = s.slug === activeSlug;
               return (
