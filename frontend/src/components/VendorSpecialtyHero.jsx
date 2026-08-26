@@ -184,7 +184,11 @@ export default function VendorSpecialtyHero() {
   const activeProduct = active?.product;
   const canOrder = activeProduct ? isLiveProduct(activeProduct) : false;
 
-  if (!activeProduct) return null;
+  if (!activeProduct) {
+    return (
+      <section className="relative isolate overflow-hidden rounded-b-[3rem] min-h-[88vh] bg-ink/5 animate-pulse" />
+    );
+  }
 
   return (
     <section

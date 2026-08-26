@@ -5,6 +5,9 @@ import ProductCard from "../components/ProductCard.jsx";
 import Reveal from "../components/Reveal.jsx";
 import { fuzzyMatchProduct } from "../lib/fuzzySearch.js";
 
+const GRID_COLUMNS = 5; // matches lg:grid-cols-5, the widest breakpoint
+const EAGER_COUNT = GRID_COLUMNS * 2; // first two rows load immediately so they don't lazy-pop mid-reveal
+
 const CATEGORIES = [
   "Pure Ghee",
   "Milk Sweets",
@@ -67,14 +70,22 @@ export default function Products() {
       </div>
 
       {loading ? (
-        <p className="mt-12 text-ink-soft">Loading sweets…</p>
+        <ul className="mt-6 sm:mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <li key={i} className="list-none animate-pulse">
+              <div className="aspect-square w-full rounded-card bg-ink/5" />
+              <div className="mt-3 h-3 w-2/3 rounded bg-ink/5" />
+              <div className="mt-2 h-4 w-1/2 rounded bg-ink/5" />
+            </li>
+          ))}
+        </ul>
       ) : filtered.length === 0 ? (
         <p className="mt-12 text-ink-soft">No sweets match your search just yet.</p>
       ) : (
         <ul className="mt-6 sm:mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {filtered.map((p, i) => (
-            <Reveal key={p._id} as="li" delay={(i % 8) * 0.05} className="list-none">
-              <ProductCard product={p} />
+            <Reveal key={p._id} as="li" delay={(i % GRID_COLUMNS) * 0.08} className="list-none">
+              <ProductCard product={p} eager={i < EAGER_COUNT} />
             </Reveal>
           ))}
         </ul>

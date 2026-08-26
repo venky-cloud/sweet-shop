@@ -9,7 +9,7 @@ import AddToCartModal from "./AddToCartModal.jsx";
 import { formatINR } from "../lib/currency.js";
 import { isLiveProduct } from "../lib/api.js";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, eager = false }) {
   const { addItem } = useCart();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
         </button>
         <Link to={`/products/${product.slug || product._id}`} className="block relative">
           {product.specialty && <SpecialtyBadge className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-10" />}
-          <ProductImage product={product} />
+          <ProductImage product={product} eager={eager} />
           <div className="p-2.5 sm:p-4">
             <p className="text-[0.6rem] sm:text-[0.65rem] font-semibold uppercase tracking-wider text-marigold-dark truncate">{product.category}</p>
             <h3 className="mt-1 font-heading font-semibold text-sm sm:text-lg leading-tight text-ink line-clamp-2">{product.name}</h3>
