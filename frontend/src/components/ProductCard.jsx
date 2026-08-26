@@ -7,13 +7,15 @@ import SpecialtyBadge from "./SpecialtyBadge.jsx";
 import TiltCard from "./TiltCard.jsx";
 import AddToCartModal from "./AddToCartModal.jsx";
 import { formatINR } from "../lib/currency.js";
+import { isLiveProduct } from "../lib/api.js";
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [showModal, setShowModal] = useState(false);
   const cheapest = product.weightOptions[0];
-  const inStock = product.stock > 0;
+  const canOrder = isLiveProduct(product);
+  const inStock = product.stock > 0 && canOrder;
   const favorite = isFavorite(product._id);
 
   return (
@@ -44,12 +46,12 @@ export default function ProductCard({ product }) {
         </Link>
         <div className="flex items-center justify-between gap-2 px-2.5 sm:px-4 pb-2.5 sm:pb-4">
           <span className={`font-heading font-semibold text-xs sm:text-lg truncate ${inStock ? "text-maroon" : "text-ink-soft font-body font-normal"}`}>
-            {inStock ? formatINR(cheapest.price) : "Out of stock"}
+            {!canOrder ? "Unavailable" : inStock ? formatINR(cheapest.price) : "Out of stock"}
           </span>
           <button
             onClick={() => setShowModal(true)}
             disabled={!inStock}
-            aria-label={inStock ? "Add to cart" : "Out of stock"}
+            aria-label={!canOrder ? "Currently unavailable" : inStock ? "Add to cart" : "Out of stock"}
             className={`shrink-0 rounded-full text-[0.65rem] sm:text-sm font-semibold px-2.5 sm:px-4 py-1.5 sm:py-2 transition-colors ${
               inStock ? "bg-maroon text-white hover:bg-saffron" : "bg-hairline text-ink-soft cursor-not-allowed"
             }`}

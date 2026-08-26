@@ -2,6 +2,13 @@ import { fallbackProducts } from "../data/products.js";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING, GST_RATE } from "./currency.js";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const OBJECT_ID_RE = /^[0-9a-fA-F]{24}$/;
+
+// fallbackProducts use slugs as _id (e.g. "gulab-jamun") so the storefront
+// stays browsable offline; only a real Mongo _id can safely go in an order.
+export function isLiveProduct(product) {
+  return OBJECT_ID_RE.test(product?._id);
+}
 
 async function safeFetch(path, options) {
   const res = await fetch(`${API_URL}${path}`, {

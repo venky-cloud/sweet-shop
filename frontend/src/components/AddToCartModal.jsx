@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { formatINR } from "../lib/currency.js";
+import { isLiveProduct } from "../lib/api.js";
 import QuantityStepper from "./QuantityStepper.jsx";
 
 export default function AddToCartModal({ product, onClose, onConfirm }) {
-  const inStock = product.stock > 0;
+  const canOrder = isLiveProduct(product);
+  const inStock = product.stock > 0 && canOrder;
   const [selected, setSelected] = useState(product.weightOptions[0]);
   const [qty, setQty] = useState(1);
 
@@ -20,7 +22,7 @@ export default function AddToCartModal({ product, onClose, onConfirm }) {
           <img src={product.image} alt={product.name} className="size-14 rounded-xl object-cover shrink-0" />
           <div className="min-w-0">
             <p className="font-heading font-semibold text-ink truncate">{product.name}</p>
-            <p className="text-sm text-ink-soft">{inStock ? "In stock" : "Out of stock"}</p>
+            <p className="text-sm text-ink-soft">{!canOrder ? "Currently unavailable" : inStock ? "In stock" : "Out of stock"}</p>
           </div>
         </div>
 
@@ -58,7 +60,9 @@ export default function AddToCartModal({ product, onClose, onConfirm }) {
             </div>
           </>
         ) : (
-          <p className="mt-5 text-sm text-ink-soft">This sweet is currently out of stock.</p>
+          <p className="mt-5 text-sm text-ink-soft">
+            {!canOrder ? "This item isn't available to order right now — please refresh and try again." : "This sweet is currently out of stock."}
+          </p>
         )}
 
         <button

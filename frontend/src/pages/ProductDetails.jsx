@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { getProduct, getProducts } from "../lib/api.js";
+import { getProduct, getProducts, isLiveProduct } from "../lib/api.js";
 import { useCart } from "../context/CartContext.jsx";
 import QuantityStepper from "../components/QuantityStepper.jsx";
 import ProductCard from "../components/ProductCard.jsx";
@@ -39,7 +39,8 @@ export default function ProductDetails() {
       .catch(() => setStatus("error"));
   }, [idOrSlug]);
 
-  const inStock = product?.stock > 0;
+  const canOrder = isLiveProduct(product);
+  const inStock = product?.stock > 0 && canOrder;
 
   if (status === "loading") return <p className="mx-auto max-w-7xl px-4 sm:px-6 py-16 text-ink-soft">Loading…</p>;
   if (status === "error" || !product) {
@@ -74,7 +75,9 @@ export default function ProductDetails() {
           <h1 className="mt-2 font-heading text-3xl sm:text-4xl font-semibold text-ink">{product.name}</h1>
           <p className="mt-2 text-ink-soft">
             ⭐ {product.rating?.toFixed(1) ?? "4.5"} ·{" "}
-            <span className={inStock ? "" : "text-red-600 font-semibold"}>{inStock ? "In stock" : "Out of stock"}</span>
+            <span className={inStock ? "" : "text-red-600 font-semibold"}>
+              {!canOrder ? "Currently unavailable" : inStock ? "In stock" : "Out of stock"}
+            </span>
           </p>
 
           {/* Description */}
@@ -153,7 +156,7 @@ export default function ProductDetails() {
               disabled
               className="mt-8 rounded-full bg-hairline text-ink-soft px-6 py-3 text-sm font-semibold cursor-not-allowed"
             >
-              Out of stock
+              {!canOrder ? "Unavailable — refresh to try again" : "Out of stock"}
             </button>
           )}
           {added && (
